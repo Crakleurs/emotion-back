@@ -11,3 +11,28 @@ services:
       POSTGRES_DB: db
     ports:
       - "5432:5432"
+  api:
+    image: emotion-api
+    build: .
+    depends_on:
+      - db
+    container_name: emotion-api
+    restart: unless-stopped
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: root
+      DB_PASSWORD: password
+      DB_NAME: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8080:8080"
+      - "8000:8000"
+  front:
+    image: emotion-front
+    build: ../emotion-front
+    container_name: emotion-front
+    restart: unless-stopped
+    ports:
+      - "3000:80"
