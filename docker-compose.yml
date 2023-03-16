@@ -1,0 +1,13 @@
+version: "3.3"
+
+services:
+  db:
+    image: postgres
+    container_name: emotion-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+    ports:
+      - "5432:5432"
