@@ -5,12 +5,12 @@ services:
     image: postgres
     container_name: emotion-db
     restart: unless-stopped
+    networks:
+      - emotion
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: password
       POSTGRES_DB: db
-    ports:
-      - "5432:5432"
   api:
     image: emotion-api
     build: .
@@ -18,21 +18,33 @@ services:
       - db
     container_name: emotion-api
     restart: unless-stopped
+    networks:
+      - caddy
+      - emotion
     environment:
       DB_HOST: db
       DB_PORT: 5432
       DB_USER: root
       DB_PASSWORD: password
-      DB_NAME: docker
+      DB_NAME: db
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - "8080:8080"
-      - "8000:8000"
+    labels:
+      caddy: api-emotion.etienne-faviere.tech
+      caddy.reverse_proxy: "{{upstreams 8080}}"
   front:
     image: emotion-front
+    networks:
+      - caddy
     build: ../emotion-front
     container_name: emotion-front
     restart: unless-stopped
-    ports:
-      - "3000:80"
+    labels:
+      caddy: emotion.etienne-faviere.tech
+      caddy.reverse_proxy: "{{upstreams 80}}"
+
+networks:
+  caddy:
+    external: true
+  emotion:
+    external: false
