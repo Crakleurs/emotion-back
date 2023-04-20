@@ -79,6 +79,6 @@ EmotionModel.init({
     paranoid: false
 })
 
-EmotionModel.belongsTo(CampaignModel);
+EmotionModel.belongsTo(CampaignModel, {as: "Campaign"});
 
 export default EmotionModel;

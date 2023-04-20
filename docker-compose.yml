@@ -37,7 +37,7 @@ services:
     networks:
       - caddy
     build: ../emotion-front
-    container_name: emotion-front
+    container_name: emotionz-front
     restart: unless-stopped
     labels:
       caddy: emotion.etienne-faviere.tech
