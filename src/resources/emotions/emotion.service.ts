@@ -5,6 +5,9 @@ import EmotionModel from "~/resources/emotions/emotion.model";
 export class EmotionService {
 
     private labels = ["anger", "joy", "hate", "irony", "neutral", "negative", "sadness", "optimism", "positive", "offensive"]
+    private maxLabels = ["anger", "joy", "sadness", "optimism"]
+    private maxLabelsTwo = ["neutral", "negative", "positive",]
+    private otherLabels = ["hate", "irony",  "offensive"]
 
     private async getEmotions(campaignId: number) {
         return await EmotionModel.findAll({
@@ -49,22 +52,45 @@ export class EmotionService {
             return null;
 
         return emotions.reduce((previousValue, currentValue) => {
-            const result = {
+            let result = {
                 label: "",
                 value: 0
             }
-            for (const label of this.labels) {
+            for (const label of this.maxLabels) {
                 // @ts-ignore
                 if (result.value < currentValue[label]) {
                     result.label = label;
                     // @ts-ignore
                     result.value = currentValue[label];
                 }
-
             }
-
             // @ts-ignore
             previousValue[result.label] += 1;
+
+            result = {
+                label: "",
+                value: 0
+            }
+            for (const label of this.maxLabelsTwo) {
+                // @ts-ignore
+                if (result.value < currentValue[label]) {
+                    result.label = label;
+                    // @ts-ignore
+                    result.value = currentValue[label];
+                }
+            }
+            // @ts-ignore
+            previousValue[result.label] += 1;
+
+
+            for (const label of this.otherLabels) {
+                // @ts-ignore
+                if (currentValue[label] >= 0.5) {
+                    // @ts-ignore
+                    previousValue[label] += 1;
+                }
+            }
+
             return previousValue;
         }, new EmotionModel({anger: 0, joy: 0, hate: 0, irony: 0, negative: 0, neutral: 0, sadness: 0, optimism: 0, positive: 0, offensive: 0}))
     }
