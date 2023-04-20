@@ -5,6 +5,7 @@ import { ExceptionsHandler } from '~/middlewares/exceptions.handler'
 import { UnknownRoutesHandler } from '~/middlewares/unknownRoutes.handler'
 import dbInit from "~/database/init";
 import {CampaignController} from "~/resources/campaigns/campaign.controller";
+import {EmotionController} from "~/resources/emotions/emotion.controller";
 
 
 const app = express()
@@ -15,6 +16,7 @@ app.use(express.json())
 app.use(cors())
 
 app.use('/campaigns', CampaignController)
+app.use('/emotions', EmotionController)
 
 app.get('/', (req, res) => res.send('API DOCKER-android'))
 
