@@ -46,6 +46,7 @@ services:
     image: emotion-ai
     build: ../emotion-ai
     container_name: emotion-ai
+    restart: unless-stopped
     networks:
       - caddy
     volumes:
@@ -53,6 +54,19 @@ services:
     labels:
       caddy: ai-emotion.etienne-faviere.tech
       caddy.reverse_proxy: "{{upstreams 80}}"
+  tweet:
+    image: emotion-tweet
+    build: ../emotion-tweet
+    container_name: emotion-tweet
+    networks:
+      - emotion
+    environment:
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      DATABASE_USER: root
+      DATABASE_PASSWORD: password
+      DATABASE_NAME: db
+    restart: unless-stopped
 
 networks:
   caddy:
