@@ -27,6 +27,7 @@ EmotionController.get('/:id/max-results', async (req, res, next) => {
     try {
         return res.status(200).json(await service.findMaxResults(+req.params.id))
     } catch (e) {
+        console.log(e);
         next(e);
     }
 })

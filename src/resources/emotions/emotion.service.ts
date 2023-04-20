@@ -35,16 +35,6 @@ export class EmotionService {
                 // @ts-ignore
                 previousValue[label] += currentValue[label];
             }
-            // emotion.anger = previousValue.anger + currentValue.anger;
-            // emotion.joy = previousValue.joy + currentValue.joy;
-            // emotion.hate = previousValue.hate + currentValue.hate;
-            // emotion.irony = previousValue.irony + currentValue.irony;
-            // emotion.negative = previousValue.negative + currentValue.negative;
-            // emotion.neutral = previousValue.neutral + currentValue.neutral;
-            // emotion.sadness = previousValue.sadness + currentValue.sadness;
-            // emotion.optimism = previousValue.optimism + currentValue.optimism;
-            // emotion.positive = previousValue.positive + currentValue.positive;
-            // emotion.offensive = previousValue.offensive + currentValue.offensive;
 
             return previousValue;
         }, new EmotionModel({anger: 0, joy: 0, hate: 0, irony: 0, negative: 0, neutral: 0, sadness: 0, optimism: 0, positive: 0, offensive: 0}))
@@ -60,7 +50,7 @@ export class EmotionService {
 
         return emotions.reduce((previousValue, currentValue) => {
             const result = {
-                "label": "",
+                label: "",
                 value: 0
             }
             for (const label of this.labels) {
