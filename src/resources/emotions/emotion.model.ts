@@ -1,7 +1,6 @@
 import {DataTypes, Model} from "sequelize";
 import connection from "~/database/config";
 import {EmotionInput, EmotionInterface} from "~/resources/emotions/emotion.interface";
-import {RelationshipType} from "sequelize/types/errors/database/foreign-key-constraint-error";
 import CampaignModel from "~/resources/campaigns/campaign.model";
 
 class EmotionModel extends Model<EmotionInterface, EmotionInput> implements EmotionInterface {
@@ -75,11 +74,11 @@ EmotionModel.init({
         unique: false,
     }
 }, {
-    timestamps: true,
+    timestamps: false,
     sequelize: connection,
     paranoid: false
 })
 
-EmotionModel.hasOne(CampaignModel);
+EmotionModel.belongsTo(CampaignModel);
 
 export default EmotionModel;

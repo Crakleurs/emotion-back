@@ -42,6 +42,17 @@ services:
     labels:
       caddy: emotion.etienne-faviere.tech
       caddy.reverse_proxy: "{{upstreams 80}}"
+  ai:
+    image: emotion-ai
+    build: ../emotion-ai
+    container_name: emotion-ai
+    networks:
+      - caddy
+    volumes:
+      - ../emotion-ai/ai-models:/code/ai-models
+    labels:
+      caddy: ai-emotion.etienne-faviere.tech
+      caddy.reverse_proxy: "{{upstreams 80}}"
 
 networks:
   caddy:

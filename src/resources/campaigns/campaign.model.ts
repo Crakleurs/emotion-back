@@ -1,7 +1,6 @@
 import {DataTypes, Model} from "sequelize";
 import connection from "~/database/config";
 import {CampaignInput, CampaignInterface} from "~/resources/campaigns/campaign.interface";
-import EmotionModel from "~/resources/emotions/emotion.model";
 
 class CampaignModel extends Model<CampaignInterface, CampaignInput> implements CampaignInterface {
     id: number;
@@ -38,10 +37,9 @@ CampaignModel.init({
     },
 
 }, {
-    timestamps: true,
+    timestamps: false,
     sequelize: connection,
     paranoid: false
 })
 
-CampaignModel.hasMany(EmotionModel, { as: 'emotions'});
 export default CampaignModel;
